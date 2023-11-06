@@ -12,6 +12,8 @@ st.write("This app allows you to access your camera or upload an image file to c
 # Sidebar to choose image source
 st.sidebar.header("Image Source")
 image_source = st.sidebar.radio("Select Image Source:", ("Camera", "Upload Image"))
+    
+cv2_img = None
 
 if image_source == "Camera":
     # Access the camera
@@ -22,7 +24,7 @@ if image_source == "Camera":
     if img_file_buffer is not None:
         bytes_data = img_file_buffer.getvalue()
         cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
-        cv2.imwrite("captured_image.png", cv2_img)
+        # cv2.imwrite("captured_image.png", cv2_img)
         st.success("Image captured successfully!")
 elif image_source == "Upload Image":
     # Upload image file
@@ -36,7 +38,7 @@ elif image_source == "Upload Image":
 
 # Image processing
 if st.button("Capture Package Dimensions and Labels"):
-    image_path = "captured_image.png" if image_source == "Camera" else "uploaded_image.png"
+    image_path = cv2_img if image_source == "Camera" else "uploaded_image.png"
     if image_path:
         st.subheader("Processed Image")
         st.write("Image processing is in progress...")
