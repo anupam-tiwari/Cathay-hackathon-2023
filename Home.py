@@ -46,7 +46,6 @@ if st.button("Capture Package Dimensions and Labels"):
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         text_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
         texts = text_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
-        st.write("Found amazon box of dimension 1 m x 1 m with amazon logo and serial label")
         for (x, y, w, h) in texts:
             cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
