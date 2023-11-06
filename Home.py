@@ -42,9 +42,7 @@ if st.button("Capture Package Dimensions and Labels"):
         st.write("Image processing is in progress...")
         image = cv2.imread(image_path)
 
-        # Package dimension and label detection code here
-        # Replace this part with your code to capture package dimensions and labels
-                # Text detection using OpenCV
+        # Text detection using OpenCV
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         text_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
         texts = text_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
