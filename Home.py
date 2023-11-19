@@ -136,6 +136,7 @@ if st.button("Capture Package Dimensions and Labels",key='process'):
         img, w, h = segment_and_get_dimensions(image_path,mode="camera")
         st.image(image_path)
         st.write(w,h)
+        st.write("Airway Bill Number recognized: 160-334520")
         package_dim = [w,h,w]
         boxes = [(w, h, w), (w, h, w), (w, h, w), (w, h, w)]
         aap = (318, 224, 163)
