@@ -134,7 +134,7 @@ def ask_openai_chatbot(data,pack):
 
 # Image processing
 if st.button("Capture Package Dimensions and Labels",key='process'):
-    image_path = "captured_image0.png" if image_source == "Camera" else "uploaded_image.png"
+    image_path = cv2_img if image_source == "Camera" else "uploaded_image.png"
     if image_path: 
         img, w, h = segment_and_get_dimensions(image_path=image_path)
         st.image(img)
