@@ -166,7 +166,7 @@ def ask_openai_chatbot(data,pack):
 
 
 # print({'exact_pack':exact_pack,'heuristic_pack':heuristic_pack},package_dim)
-# st.write(ask_openai_chatbot({'exact_pack':exact_pack,'heuristic_pack':heuristic_pack},package_dim))
+st.write(ask_openai_chatbot({'exact_pack':exact_pack,'heuristic_pack':heuristic_pack},package_dim))
         
 # Display the processed image
 if st.button("Download Processed Image"):
