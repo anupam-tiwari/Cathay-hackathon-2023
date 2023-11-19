@@ -19,10 +19,4 @@ def heuristic_bin_packing(boxes, container_dimensions):
 
     return containers
 
-# Example usage:
-# boxes = [(2, 3, 4), (1, 2, 3), (3, 4, 5), (2, 2, 2)]
-# boxes = [(1, 1, 1), (1, 1, 1), (1, 1, 1), (1, 1, 1),(10,10,10)]
-# container_dimensions = (5, 5, 6)
-# result = heuristic_bin_packing(boxes, container_dimensions)
-# print(result)
 

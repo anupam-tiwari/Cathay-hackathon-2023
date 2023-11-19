@@ -14,12 +14,4 @@ class BinPackingProblem(Annealer):
         return -sum(min((b[0] * b[1] * b[2]) / (self.container_dimensions[0] * self.container_dimensions[1] * self.container_dimensions[2])
                         for b in box) for box in self.state)
 
-# Example usage:
-# initial_state = [[(2, 3, 4), (1, 2, 3), (3, 4, 5), (2, 2, 2)]]
-# boxes = [(2, 3, 4), (1, 2, 3), (3, 4, 5), (2, 2, 2)]
-# container_dimensions = (5, 5, 6)
-# problem = BinPackingProblem(initial_state, boxes.copy(), container_dimensions)
-# result_metaheuristic, _ = problem.anneal()
-
-# print(result_metaheuristic)
 
