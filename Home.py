@@ -48,8 +48,11 @@ for n in range(number_of_box):
             cv2.imwrite("uploaded_image.png", image)
             st.success("Image uploaded successfully!")
             
-def segment_and_get_dimensions(image_path):
-    image = cv2.imread(image_path)
+def segment_and_get_dimensions(image_path, mode):
+    if mode == "camera":
+        image = image_path
+    else: 
+        image = cv2.imread(image_path)
     image2 = image.copy()
     hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -136,7 +139,7 @@ def ask_openai_chatbot(data,pack):
 if st.button("Capture Package Dimensions and Labels",key='process'):
     image_path = cv2_img if image_source == "Camera" else "uploaded_image.png"
     if image_path: 
-        img, w, h = segment_and_get_dimensions(image_path=image_path)
+        img, w, h = segment_and_get_dimensions(image_path=image_path,mode="camera")
         st.image(img)
         st.write(w,h)
         
