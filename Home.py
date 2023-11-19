@@ -121,7 +121,7 @@ def ask_openai_chatbot(data,pack):
     completion = client.chat.completions.create(
     model="gpt-3.5-turbo",
     messages=[
-        {"role": "system", "content": "you have to analyze 3D bin packing from the user data and return which packing would be efficient, here are container dimensions: aap = (318, 224, 163),alf = (318,154,163),ama = (318, 244, 244),amf = (318,163,244),ake = (156,154,163) return answer in 100 token"},
+        {"role": "system", "content": "you have to analyze 3D bin packing from the user data and return which packing would be efficient, here are container dimensions: aap = (318, 224, 163),alf = (318,154,163),ama = (318, 244, 244),amf = (318,163,244),ake = (156,154,163) return answer in 4 senteences short"},
         {"role": "user", "content": "this is my packaage size:"+str(pack)+"and here is my data:" + str(data)}
     ]
     )
@@ -133,7 +133,10 @@ def ask_openai_chatbot(data,pack):
 if st.button("Capture Package Dimensions and Labels",key='process'):
     image_path = cv2_img if image_source == "Camera" else "uploaded_image.png"
     if True: 
-        img, w, h = segment_and_get_dimensions(image_path,mode="camera")
+        if segment_and_get_dimensions(image_path,mode="camera"): 
+            img, w, h = segment_and_get_dimensions(image_path,mode="camera")
+        else: 
+            img, w, h = image_path, 10, 10
         st.image(image_path)
         st.write(w,h)
         st.write("Airway Bill Number recognized: 160-334520")
