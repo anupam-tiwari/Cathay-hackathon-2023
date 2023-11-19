@@ -121,7 +121,7 @@ def ask_openai_chatbot(data,pack):
     completion = client.chat.completions.create(
     model="gpt-3.5-turbo",
     messages=[
-        {"role": "system", "content": "you have to analyze 3D bin packing from the user data and return which packing would be efficient, here are container dimensions: aap = (318, 224, 163),alf = (318,154,163),ama = (318, 244, 244),amf = (318,163,244),ake = (156,154,163) "},
+        {"role": "system", "content": "you have to analyze 3D bin packing from the user data and return which packing would be efficient, here are container dimensions: aap = (318, 224, 163),alf = (318,154,163),ama = (318, 244, 244),amf = (318,163,244),ake = (156,154,163) return answer in 100 token"},
         {"role": "user", "content": "this is my packaage size:"+str(pack)+"and here is my data:" + str(data)}
     ]
     )
