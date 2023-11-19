@@ -118,6 +118,20 @@ def segment_and_get_dimensions(image_path):
 exact_pack = {}
 heuristic_pack = {} 
 package_dim = []
+
+def ask_openai_chatbot(data,pack):
+        # Use OpenAI's chat completion APrI
+    completion = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "you have to analyze 3D bin packing from the user data and return which packing would be efficient, here are container dimensions: aap = (318, 224, 163),alf = (318,154,163),ama = (318, 244, 244),amf = (318,163,244),ake = (156,154,163) "},
+        {"role": "user", "content": "this is my packaage size:"+str(pack)+"and here is my data:" + str(data)}
+    ]
+    )
+
+        # Extract and return the assistant's reply from the API response
+    return completion.choices[0].message.content
+
 # Image processing
 if st.button("Capture Package Dimensions and Labels",key='process'):
     image_path = "captured_image0.png" if image_source == "Camera" else "uploaded_image.png"
@@ -139,6 +153,8 @@ if st.button("Capture Package Dimensions and Labels",key='process'):
         
         for keys,value in containers.items(): 
             heuristic_pack[keys] = heuristic.heuristic_bin_packing(boxes,value)
+        
+        st.write(ask_openai_chatbot({'exact_pack':exact_pack,'heuristic_pack':heuristic_pack},package_dim))
        
 
 st.write("For Exact packing algorithm")
@@ -151,22 +167,11 @@ for keys in heuristic_pack.keys():
     st.image('assets/'+keys+'.jpeg')
     st.write(heuristic_pack[keys])
 
-def ask_openai_chatbot(data,pack):
-        # Use OpenAI's chat completion APrI
-    completion = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "system", "content": "you have to analyze 3D bin packing from the user data and return which packing would be efficient, here are container dimensions: aap = (318, 224, 163),alf = (318,154,163),ama = (318, 244, 244),amf = (318,163,244),ake = (156,154,163) "},
-        {"role": "user", "content": "this is my packaage size:"+str(pack)+"and here is my data:" + str(data)}
-    ]
-    )
 
-        # Extract and return the assistant's reply from the API response
-    return completion.choices[0].message.content
 
 
 # print({'exact_pack':exact_pack,'heuristic_pack':heuristic_pack},package_dim)
-st.write(ask_openai_chatbot({'exact_pack':exact_pack,'heuristic_pack':heuristic_pack},package_dim))
+
         
 # Display the processed image
 if st.button("Download Processed Image"):
