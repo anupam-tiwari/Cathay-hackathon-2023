@@ -3,17 +3,12 @@ import cv2
 import numpy as np
 import time
 from PIL import Image
-from stpyvista import stpyvista
-import pyvista as pv
 from scipy.spatial import distance as dist
 from imutils import perspective
 from imutils import contours
 import numpy as np
-import argparse
-import imutils
 from algo import exact
 from algo import heuristic
-from langchain.chat_models import ChatOpenAI
 import openai
 from openai import OpenAI
 client = OpenAI(api_key=st.secrets["open_ai"])

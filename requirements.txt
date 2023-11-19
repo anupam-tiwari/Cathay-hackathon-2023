@@ -1,1 +1,4 @@
 opencv-python-headless
+scipy
+openai
+os
