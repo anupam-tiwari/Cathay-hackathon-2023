@@ -4,8 +4,6 @@ import numpy as np
 import time
 from PIL import Image
 from scipy.spatial import distance as dist
-from imutils import perspective
-from imutils import contours
 import numpy as np
 from algo import exact
 from algo import heuristic
