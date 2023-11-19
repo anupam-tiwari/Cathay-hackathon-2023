@@ -24,35 +24,29 @@ image_source = st.sidebar.radio("Select Image Source:", ("Camera", "Upload Image
 cv2_img = None
 number_of_box = st.selectbox('number of boxes', [1,2,3,4,5,6,7])
 
-for n in range(number_of_box):
-    if image_source == "Camera":
+
+if image_source == "Camera":
         # Access the camera
-        st.subheader("Camera Feed")
-        st.write("Please grant permission to access your camera.")
-        camera = cv2.VideoCapture(0)
-        img_file_buffer = st.camera_input("Take a picture",key=n)
-        if img_file_buffer is not None:
-            bytes_data = img_file_buffer.getvalue()
-            cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
-            path = 'captured_image' + str(n) + '.png'
-            print(path)
-            cv2.imwrite(path, cv2_img)
-            st.success("Image captured successfully!")
-    elif image_source == "Upload Image":
-        # Upload image file
-        st.subheader("Upload an Image")
-        uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
-        if uploaded_file is not None:
-            image = cv2.imdecode(np.fromstring(uploaded_file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
-            st.image(image, channels="BGR")
-            cv2.imwrite("uploaded_image.png", image)
-            st.success("Image uploaded successfully!")
+    st.subheader("Camera Feed")
+    st.write("Please grant permission to access your camera.")
+    camera = cv2.VideoCapture(0)
+    img_file_buffer = st.camera_input("Take a picture")
+    if img_file_buffer is not None:
+        bytes_data = img_file_buffer.getvalue()
+        cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
+        st.success("Image captured successfully!")
+elif image_source == "Upload Image":
+
+    st.subheader("Upload an Image")
+    uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+    if uploaded_file is not None:
+        image = cv2.imdecode(np.fromstring(uploaded_file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
+        st.image(image, channels="BGR")
+        cv2.imwrite("uploaded_image.png", image)
+        st.success("Image uploaded successfully!")
             
 def segment_and_get_dimensions(image_path, mode):
-    if mode == "camera":
-        image = image_path
-    else: 
-        image = cv2.imread(image_path)
+    image = image_path
     image2 = image.copy()
     hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -81,12 +75,12 @@ def segment_and_get_dimensions(image_path, mode):
     lines = cv2.HoughLinesP(edged, 1, np.pi/180, 100, minLineLength=500, maxLineGap=250)
 
     # Extend the lines across the entire image
-    for line in lines:
-        x1, y1, x2, y2 = line[0]
-        if abs(y2 - y1) < abs(x2 - x1):
-            cv2.line(image2, (0, y1), (image.shape[1], y2), (0, 0, 255), 2)
-        else:
-            cv2.line(image2, (x1, 0), (x2, image.shape[0]), (0, 0, 255), 2)
+    # for line in lines:
+    #     x1, y1, x2, y2 = line[0]
+    #     if abs(y2 - y1) < abs(x2 - x1):
+    #         cv2.line(image2, (0, y1), (image.shape[1], y2), (0, 0, 255), 2)
+    #     else:
+    #         cv2.line(image2, (x1, 0), (x2, image.shape[0]), (0, 0, 255), 2)
         
     hsv_image = cv2.cvtColor(image2, cv2.COLOR_BGR2HSV)
     gray = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
@@ -138,11 +132,10 @@ def ask_openai_chatbot(data,pack):
 # Image processing
 if st.button("Capture Package Dimensions and Labels",key='process'):
     image_path = cv2_img if image_source == "Camera" else "uploaded_image.png"
-    if image_path: 
-        img, w, h = segment_and_get_dimensions(image_path=image_path,mode="camera")
-        st.image(img)
+    if True: 
+        img, w, h = segment_and_get_dimensions(image_path,mode="camera")
+        st.image(image_path)
         st.write(w,h)
-        
         package_dim = [w,h,w]
         boxes = [(w, h, w), (w, h, w), (w, h, w), (w, h, w)]
         aap = (318, 224, 163)
